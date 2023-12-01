@@ -4,28 +4,29 @@ import debounce from 'lodash.debounce'
 
 import styles from './Search.module.scss'
 import icon from '../../assets/img/4115230_cancel_close_delete_icon.svg'
-import { SearchContext } from '../../App'
+import { useDispatch } from 'react-redux'
+import { setSearchValue } from '../../redux/slices/filterSlice'
 
 
 const Search = () => {
+    const dispatch = useDispatch()
+    const [value, setValue] = React.useState('')
 
-    const [searchValue, setSearchValue] = React.useState('')
-    const { value, setValue } = React.useContext(SearchContext)
     const inputRef = useRef()
 
     const clearInput = () => {
+        dispatch(setSearchValue(''))
         setValue('')
-        setSearchValue('')
         inputRef.current.focus()
     }
 
     const onChangeInput = (e) => {
-        setSearchValue(e.target.value)
+        setValue(e.target.value)
         updateSearchValue(e.target.value)
     }
     const updateSearchValue = useCallback(
         debounce((str) => {
-            setValue(str)
+            dispatch(setSearchValue(str))
 
         }, 500),
         []
@@ -44,7 +45,7 @@ const Search = () => {
                 ref={inputRef}
                 className={styles.input}
                 placeholder='Поиск пиццы...'
-                value={searchValue}
+                value={value}
                 onChange={onChangeInput}
             />
             {value && <img

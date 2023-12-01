@@ -7,34 +7,30 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort from "../components/Sort";
 import Categories from "../components/Categories";
 import Pagination from '../components/Pagination';
-import { setCategory, setPageCount } from '../redux/slices/filterSlice';
+import { filterSelector, setCategory, setPageCount } from '../redux/slices/filterSlice';
+import { fetchPizzas, pizzasSelector } from '../redux/slices/pizzasSlice'
 
 
 
 const Home = ({ value }) => {
-    const { categoryId, sort, pageCount } = useSelector((state) => state.filter)
-
-
-
+    const { categoryId, sort, pageCount, searchValue } = useSelector(filterSelector)
+    const { items, status } = useSelector(pizzasSelector)
     const sortType = sort.sortProperty
     const dispatch = useDispatch()
-    const [items, setItems] = React.useState([])
-    const [isLoading, setIsLoading] = React.useState(true)
 
-    const fetchPizzas = () => {
-        setIsLoading(true)
+    const getPizza = async () => {
         const sortBy = sortType.replace('-', '');
         const order = sortType.includes('-') ? 'asc' : 'desc';
         const category = categoryId > 0 ? `category=${categoryId}` : '';
-        axios.get(
-            `https://65448feb5a0b4b04436c8365.mockapi.io/items?page=${pageCount}&limit=4&${category}&sortBy=${sortBy}&order=${order}&search=${searchValue}`
-        ).then((res) => {
-            setItems(res.data)
-            setIsLoading(false)
-        })
+        dispatch(fetchPizzas({
+            sortBy,
+            order,
+            category,
+            pageCount,
+            searchValue,
+        }))
     }
 
-    const searchValue = value
 
     const onChangePage = (i) => {
         dispatch(setPageCount(i))
@@ -45,11 +41,8 @@ const Home = ({ value }) => {
     }
 
     React.useEffect(() => {
-        window.scrollTo(0, 0)
-        fetchPizzas()
+        getPizza()
     }, [categoryId, sortType, searchValue, pageCount])
-
-
 
     const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
     const pizzas = items.map((obj) => <PizzaBlock key={obj.id}  {...obj} />)
@@ -63,7 +56,7 @@ const Home = ({ value }) => {
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
                 {
-                    isLoading ? skeleton
+                    status === 'loading' ? skeleton
                         :
                         pizzas
                 }
