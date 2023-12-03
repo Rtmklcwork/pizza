@@ -10,6 +10,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
+import FullPizza from "./pages/FullPizza";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/pizza/:id" element={<FullPizza />} />
           </Routes>
         </div>
       </div>
