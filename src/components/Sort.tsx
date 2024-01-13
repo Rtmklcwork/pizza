@@ -1,9 +1,14 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSort, sortSelector } from '../redux/slices/filterSlice'
+import { setSort, sortSelector } from '../redux/slices/filterSlice.ts'
+
+type SortListItem = {
+    name: string;
+    sortProperty: string;
+}
 
 
-export const list = [
+export const list: SortListItem[] = [
     { name: 'Популярности (DESC)', sortProperty: 'rating' },
     { name: 'Популярности (ASC)', sortProperty: '-rating' },
     { name: 'Цене (DESC)', sortProperty: 'price' },
@@ -12,21 +17,21 @@ export const list = [
     { name: 'Алфавиту (ASC)', sortProperty: '-title' },
 ]
 
-const Sort = () => {
+const Sort: React.FC = () => {
     const dispatch = useDispatch()
     const sort = useSelector(sortSelector)
-    const sortRef = React.useRef()
+    const sortRef = React.useRef<HTMLDivElement>(null)
 
     const [open, setOpen] = React.useState(false)
 
-    const handleSelected = (obj) => {
+    const handleSelected = (obj: SortListItem) => {
         dispatch(setSort(obj))
         setOpen(false)
     }
 
     React.useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (!e.composedPath(e).includes(sortRef.current)) {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (sortRef.current && !e.composedPath().includes(sortRef.current)) {
                 setOpen(false)
             }
         }
@@ -36,9 +41,6 @@ const Sort = () => {
             document.body.removeEventListener('click', handleClickOutside)
         }
     }, [])
-
-
-
     return (
         <div ref={sortRef} className="sort">
             <div className="sort__label">

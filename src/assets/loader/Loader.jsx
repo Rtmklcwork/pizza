@@ -1,10 +1,18 @@
-import React from 'react'
-import style from './Loader.module.css'
-
-const Loader = () => {
-    return (
-        <span className={style.loader}></span>
-    )
-}
-
-export default Loader
+import React from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+const Loader = () => (
+    <Spin
+        indicator={
+            <LoadingOutlined
+                style={{
+                    fontSize: 100,
+                    color: 'orange',
+                    left: 500,
+                }}
+                spin
+            />
+        }
+    />
+);
+export default Loader;

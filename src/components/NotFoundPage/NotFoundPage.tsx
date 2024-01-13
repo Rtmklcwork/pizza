@@ -2,7 +2,7 @@ import React from 'react'
 
 import s from './NotFoundPage.module.scss'
 
-const NotFoundPage = () => {
+const NotFoundPage: React.FC = () => {
     return (
         <>
 

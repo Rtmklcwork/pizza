@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Categories = ({ value, changeCategory }) => {
+type CategoriesProps = {
+    value: number;
+    changeCategory: (index: number) => void;
+}
 
-    const [activeIndex, setActiveIndex] = React.useState(0)
-    const activeCategoty = (index) => {
-        setActiveIndex(index)
-    }
+const Categories: React.FC<CategoriesProps> = React.memo(({ value, changeCategory }) => {
 
     const categories = ['Все', 'Мясные', 'Вегетарианские', 'Закрытые', 'Острые', 'Гриль']
 
@@ -26,6 +26,6 @@ const Categories = ({ value, changeCategory }) => {
             </ul>
         </div >
     )
-}
+})
 
 export default Categories

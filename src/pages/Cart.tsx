@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import CartItem from '../components/CartItem'
+import CartItem from '../components/CartItem.tsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { cartSelector, clearCart } from '../redux/slices/cartSlice'
-import CartEmpty from '../components/CartEmpty'
+import { cartSelector, clearCart } from '../redux/slices/cartSlice.ts'
+import CartEmpty from '../components/CartEmpty.tsx'
 
 
-const Cart = () => {
+const Cart: React.FC = () => {
     const dispatch = useDispatch()
     const { items, totalPrice } = useSelector(cartSelector)
-    const totalCount = items.reduce((acc, item) => acc + item.count, 0)
+    const totalCount = items.reduce((acc: number, item: any) => acc + item.count, 0)
     const deleteCart = () => {
         dispatch(clearCart())
     }

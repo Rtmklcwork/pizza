@@ -4,10 +4,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import Loader from '../assets/loader/Loader'
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
     const { id } = useParams()
     console.log(id);
-    const [pizza, setPizza] = useState()
+    const [pizza, setPizza] = useState<{
+        imageUrl: string,
+        title: string,
+        price: string
+    }>()
     const navigate = useNavigate()
     React.useEffect(() => {
         async function fetchPizza() {

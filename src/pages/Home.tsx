@@ -1,44 +1,47 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-import PizzaBlock from "../components/PizzaBlock";
-import Skeleton from "../components/PizzaBlock/Skeleton";
-import Sort from "../components/Sort";
-import Categories from "../components/Categories";
-import Pagination from '../components/Pagination';
-import { filterSelector, setCategory, setPageCount } from '../redux/slices/filterSlice';
-import { fetchPizzas, pizzasSelector } from '../redux/slices/pizzasSlice'
+import PizzaBlock from '../components/PizzaBlock/PizzaBlock.tsx';
+import Skeleton from "../components/PizzaBlock/Skeleton.tsx";
+import Sort from "../components/Sort.tsx";
+import Categories from "../components/Categories.tsx";
+import App from '../components/Pagination/index.tsx';
+import { filterSelector, setCategory, setPageCount } from '../redux/slices/filterSlice.ts';
+import { fetchPizzas, pizzasSelector } from '../redux/slices/pizzasSlice.ts'
+import { useAppDispatch } from '../redux/store.ts';
 
 
 
-const Home = ({ value }) => {
+const Home: React.FC = () => {
     const { categoryId, sort, pageCount, searchValue } = useSelector(filterSelector)
+
+
     const { items, status } = useSelector(pizzasSelector)
     const sortType = sort.sortProperty
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const getPizza = async () => {
         const sortBy = sortType.replace('-', '');
         const order = sortType.includes('-') ? 'asc' : 'desc';
         const category = categoryId > 0 ? `category=${categoryId}` : '';
-        dispatch(fetchPizzas({
-            sortBy,
-            order,
-            category,
-            pageCount,
-            searchValue,
-        }))
+        dispatch(
+            fetchPizzas({
+                sortBy,
+                order,
+                category,
+                searchValue,
+                pageCount: String(pageCount),
+            }))
     }
 
 
-    const onChangePage = (i) => {
+    const onChangePage = (i: number) => {
         dispatch(setPageCount(i))
     }
 
-    const onChangeCategory = (id) => {
+    const onChangeCategory = React.useCallback((id: number) => {
         dispatch(setCategory(id))
-    }
+    }, [])
 
     React.useEffect(() => {
         getPizza()
@@ -61,7 +64,7 @@ const Home = ({ value }) => {
                         pizzas
                 }
             </div>
-            <Pagination onChangePage={onChangePage} />
+            <App onChangePage={onChangePage} />
         </div>
     )
 }
