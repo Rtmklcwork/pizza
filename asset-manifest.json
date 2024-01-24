@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/github.io/pizza/static/css/main.e13fc71a.css",
+    "main.js": "/github.io/pizza/static/js/main.deafccfa.js",
+    "static/media/empty-cart.png": "/github.io/pizza/static/media/empty-cart.db905d1f4b063162f25b.png",
+    "static/media/pizza-logo.svg": "/github.io/pizza/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
+    "index.html": "/github.io/pizza/index.html",
+    "static/media/4115230_cancel_close_delete_icon.svg": "/github.io/pizza/static/media/4115230_cancel_close_delete_icon.2001e956d267bc9b1a2349ee0a8ee521.svg",
+    "main.e13fc71a.css.map": "/github.io/pizza/static/css/main.e13fc71a.css.map",
+    "main.deafccfa.js.map": "/github.io/pizza/static/js/main.deafccfa.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e13fc71a.css",
+    "static/js/main.deafccfa.js"
+  ]
+}
